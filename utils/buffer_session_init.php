@@ -20,3 +20,7 @@ if (! $_SESSION['items']['completed']) {
 if (! $_SESSION['items']['deleted']) {
     $_SESSION['items']['deleted'] = [];
 }
+
+$todoItems = $_SESSION['items']['todo'];
+$completedItems = $_SESSION['items']['completed'];
+$deletedItems = $_SESSION['items']['deleted'];
