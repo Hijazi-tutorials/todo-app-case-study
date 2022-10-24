@@ -37,7 +37,7 @@ require_once '../utils/buffer_session_init.php';
                 $itemDescription = $todoItem['description'];
                 $itemCreatedAt = $todoItem['created_at'];
                 ?>
-                <div class="w-80">
+                <div class="w-80 mb-6">
                     <div class="bg-white max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
                         <div class="h-20 bg-purple-500 flex items-center justify-start gap-3">
                             <h1 class="text-white ml-4 border-2 py-2 px-4 rounded-full">
