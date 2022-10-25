@@ -14,8 +14,10 @@ if (! key_exists('description', $_POST)) {
     throw new Exception("Can't create todo item without description");
 }
 
-$_SESSION['items']['todo'][] = [
-  'id' => UniqueGeneratorHelper::generateAutoIncrementId(),
+$incrementedId = UniqueGeneratorHelper::generateAutoIncrementId();
+
+$_SESSION['items']['todo'][$incrementedId] = [
+  'id' => $incrementedId,
   'title' => $_POST['title'],
   'description' => $_POST['description'],
   'created_at' => DateHelper::humanDateFormat()
