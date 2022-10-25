@@ -1,6 +1,9 @@
 <div class="bg-gray-100 space-y-12 py-10 rounded-2xl">
     <div>
         <h3 class="text-3xl text-center font-source-code-pro"> Todo items </h3>
+        <div class="bg-purple-500 my-8 py-4 font-source-code-pro text-lg text-white text-center">
+            <!-- {$redirect_message} -->
+        </div>
     </div>
     <!-- to-do item element -->
     <div class="container flex justify-center gap-16">
@@ -39,7 +42,7 @@
                     <form action="" method="" id="todo-item-{$id}"
                           class="my-0 flex items-center px-4 gap-3">
                                 <span class=''>
-                                  <input hidden name="todo-item" value="{$id}">
+                                  <input hidden name="item_id" value="{$id}">
                                   <input type="checkbox"
                                          onclick="document.getElementById('todo-item-{$id}').submit()"
                                          class='h-6 w-6 bg-white checked:scale-75 transition-all duration-200 peer'/>
@@ -49,7 +52,7 @@
                         </p>
                     </form>
                     <form action="" method="">
-                        <input hidden name="todo-item" value="{$id}">
+                        <input hidden name="item_id" value="{$id}">
                         <button type="submit"
                                 class="text-sm bg-red-500 text-white px-3 py-2 mx-4 rounded hover:bg-white hover:text-red-500 duration-500">
                             Delete
