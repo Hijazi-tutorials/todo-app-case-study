@@ -5,6 +5,14 @@ require_once '../utils/buffer_session_init.php';
 <div class="bg-gray-100 space-y-12 py-10 rounded-2xl">
     <div>
         <h3 class="text-3xl text-center font-source-code-pro"> Todo items </h3>
+        <?php if ($_SESSION['redirect_message'] ?? false) { ?>
+            <div class="bg-purple-500 my-8 py-4 font-source-code-pro text-lg text-white text-center">
+                <?php
+                echo $_SESSION['redirect_message'];
+                unset($_SESSION['redirect_message']);
+                ?>
+            </div>
+        <?php } ?>
     </div>
     <!-- to-do item element -->
     <div class="container flex justify-center gap-16">
@@ -30,7 +38,8 @@ require_once '../utils/buffer_session_init.php';
             </form>
         </div>
         <div>
-            <?php foreach ($todoItems as $i => $todoItem) { ?>
+            <?php $i = 1; ?>
+            <?php foreach ($todoItems as $todoItem) { ?>
                 <?php
                 $itemId = $todoItem['id'];
                 $itemTitle = $todoItem['title'];
@@ -41,16 +50,17 @@ require_once '../utils/buffer_session_init.php';
                     <div class="bg-white max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
                         <div class="h-20 bg-purple-500 flex items-center justify-start gap-3">
                             <h1 class="text-white ml-4 border-2 py-2 px-4 rounded-full">
-                                <?php echo $i + 1; ?>
+                                <?php echo $i++; ?>
                             </h1>
                             <p class="mr-20 text-white text-lg">
                                 <?php echo $itemTitle; ?>
                             </p>
                         </div>
-                        <form action="" method="" id="todo-item-<?php echo $itemId; ?>"
+                        <form action="../actions/assign_item_as_completed.php" method="POST"
+                              id="todo-item-<?php echo $itemId; ?>"
                               class="my-0 flex items-center px-4 gap-3">
                                 <span class=''>
-                                  <input hidden name="todo-item" value="<?php echo $itemId; ?>">
+                                  <input hidden name="item_id" value="<?php echo $itemId; ?>">
                                   <input type="checkbox"
                                          onclick="document.getElementById('todo-item-<?php echo $itemId; ?>').submit()"
                                          class='h-6 w-6 bg-white checked:scale-75 transition-all duration-200 peer'/>
