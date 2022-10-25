@@ -14,14 +14,14 @@ class UniqueGeneratorHelper
 
     static function generateAutoIncrementId($prefix = ""): string
     {
-        $lastTodoItem = end(static::$todoItems);
-        $lastCompletedItem = end(static::$completedItems);
-        $lastDeletedItem = end(static::$deletedItems);
+        $maxTodoItemId = max(array_keys(static::$todoItems));
+        $maxCompletedIItemId = max(array_keys(static::$completedItems));
+        $maxDeletedItemId = max(array_keys(static::$deletedItems));
 
         $idsList = [
-            $lastTodoItem['id'] ?? 0,
-            $lastCompletedItem['id'] ?? 0,
-            $lastDeletedItem['id'] ?? 0
+            $maxTodoItemId,
+            $maxCompletedIItemId,
+            $maxDeletedItemId
         ];
 
         $autoIncrementedId = max($idsList) + 1;
