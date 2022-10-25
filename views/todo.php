@@ -69,8 +69,9 @@ require_once '../utils/buffer_session_init.php';
                                 <?php echo $itemDescription; ?>
                             </p>
                         </form>
-                        <form action="" method="">
-                            <input hidden name="todo-item" value="<?php echo $itemId; ?>">
+                        <form action="../actions/assign_item_as_deleted.php" method="POST">
+                            <input hidden name="item_id" value="<?php echo $itemId; ?>">
+                            <input hidden name="delete_from" value="todo-list">
                             <button type="submit"
                                     class="text-sm bg-red-500 text-white px-3 py-2 mx-4 rounded hover:bg-white hover:text-red-500 duration-500">
                                 Delete
