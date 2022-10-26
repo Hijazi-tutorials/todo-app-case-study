@@ -25,7 +25,7 @@
             <div class="flex items-center px-4 gap-3">
                     <form method="" action="" class='my-0'>
                             <!-- {$id} -->
-                            <input hidden name="completed-item" value="{$id}">
+                            <input hidden name="item_id" value="{$id}">
                             <input type="checkbox" onclick="document.getElementById('completed-item-{$id}').submit()"
                                    checked class='h-6 w-6 bg-white checked:scale-75 transition-all duration-200 peer'/>
                     </form>
@@ -37,7 +37,8 @@
 
             <form action="" method="">
                 <!-- {$id} -->
-                <input hidden name="completed-item" value="{$id}">
+                <input hidden name="item_id" value="{$id}">
+                <input hidden name="delete_from" value="completed-list" />
                 <button type="submit"
                         class="text-sm bg-red-500 text-white px-3 py-2 mx-4 rounded hover:bg-white hover:text-red-500 duration-500">
                     Delete
