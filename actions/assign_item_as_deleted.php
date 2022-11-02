@@ -3,6 +3,7 @@ require_once '../utils/buffer_session_init.php';
 require_once '../helpers/UniqueGeneratorHelper.php';
 require_once '../helpers/DateHelper.php';
 require_once '../helpers/RedirectHelper.php';
+require_once '../constants/AppLists.php';
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     throw new Exception("Can't delete item without POST request.");
@@ -17,12 +18,12 @@ if(! key_exists('delete_from', $_POST)) {
 $item_id = $_POST['item_id'];
 $delete_from = $_POST['delete_from'];
 
-if ($delete_from == "todo-list") {
+if ($delete_from == AppLists::TODO) {
     $item = $todoItems[$item_id];
 
     unset($_SESSION['items']['todo'][$item_id]);
     unset($todoItems[$item_id]);
-} elseif ($delete_from == "completed-list") {
+} elseif ($delete_from == AppLists::COMPLETED) {
     $item = $completedItems[$item_id];
 
     unset($_SESSION['items']['completed'][$item_id]);
@@ -37,7 +38,8 @@ $_SESSION['items']['deleted'][$item_id] = [
     'title' => $item['title'],
     'description' => $item['description'],
     'created_at' => $item['created_at'],
-    'deleted_at' => DateHelper::humanDateFormat()
+    'deleted_at' => DateHelper::humanDateFormat(),
+    'deleted_from' => $delete_from
 ];
 
 $_SESSION['redirect_message'] =
