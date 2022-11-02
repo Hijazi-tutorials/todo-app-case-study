@@ -1,6 +1,5 @@
 <?php
 require_once '../utils/buffer_session_init.php';
-$completedItems = $_SESSION['items']['completed'];
 ?>
 
 <div class="bg-gray-100 space-y-12 py-10 rounded-2xl">
