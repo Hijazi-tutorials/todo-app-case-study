@@ -14,7 +14,7 @@ class ListHelper
         return $list[$key] ?? $default;
     }
 
-    public static function getConfigurationValue(string $key, array $configrations) {
-        return self::getValue($key, $configrations, null, "[OVERRIDE]: Add `$key` config value to your local configuration.");
+    public static function getConfigurationValue(string $key, array $configurations) {
+        return self::getValue($key, $configurations, null, "[OVERRIDE]: Add `$key` config value to your local configuration.");
     }
 }
