@@ -3,7 +3,7 @@ require_once '../utils/buffer_session_init.php';
 require_once '../helpers/UniqueGeneratorHelper.php';
 require_once '../helpers/DateHelper.php';
 require_once '../helpers/RedirectHelper.php';
-require_once '../constants/AppLists.php';
+require_once '../constants/ItemTypes.php';
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     throw new Exception("Can't delete item without POST request.");
@@ -18,12 +18,12 @@ if(! key_exists('delete_from', $_POST)) {
 $item_id = $_POST['item_id'];
 $delete_from = $_POST['delete_from'];
 
-if ($delete_from == AppLists::TODO) {
+if ($delete_from == ItemTypes::TODO) {
     $item = $todoItems[$item_id];
 
     unset($_SESSION['items']['todo'][$item_id]);
     unset($todoItems[$item_id]);
-} elseif ($delete_from == AppLists::COMPLETED) {
+} elseif ($delete_from == ItemTypes::COMPLETED) {
     $item = $completedItems[$item_id];
 
     unset($_SESSION['items']['completed'][$item_id]);
