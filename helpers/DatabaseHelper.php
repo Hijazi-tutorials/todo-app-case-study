@@ -50,6 +50,10 @@ class DatabaseHelper
         $mysqli = self::mysqliConnection();
         $fetchedItems = $mysqli->query($query);
 
+        if(! $fetchedItems) {
+            throw new Exception("something wrong with query '$query', please run the query locally & fix it.");
+        }
+
         while ($fetchedItem = $fetchedItems->fetch_assoc()) {
             $item = [];
 
