@@ -1,6 +1,6 @@
 <?php
 require_once '../utils/buffer_session_init.php';
-require_once '../constants/ItemTypes.php';
+require_once '../constants/ListTypes.php';
 ?>
 
 <div class="bg-gray-100 space-y-12 py-10 rounded-2xl">
@@ -45,7 +45,7 @@ require_once '../constants/ItemTypes.php';
 
                 <div>
                     <!-- if it's deleted from completed page -->
-                    <?php if ($deleted_from == ItemTypes::TODO) { ?>
+                    <?php if ($deleted_from == ListTypes::TODO) { ?>
                         <form action="../actions/recover_item.php" method="POST">
                             <!-- {$id} -->
                             <input hidden name="item_id" value="<?php echo $id ?>">
@@ -57,7 +57,7 @@ require_once '../constants/ItemTypes.php';
                         </form>
                     <?php } ?>
                     <!-- if it's deleted from to.do page -->
-                    <?php if ($deleted_from == ItemTypes::COMPLETED) { ?>
+                    <?php if ($deleted_from == ListTypes::COMPLETED) { ?>
                         <form action="../actions/recover_item.php" method="POST" id="archived-item-{$id}">
                             <!-- {$id} -->
                             <input hidden name="item_id" value="<?php echo $id ?>">

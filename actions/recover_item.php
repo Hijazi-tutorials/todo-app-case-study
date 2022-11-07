@@ -1,7 +1,7 @@
 <?php
 require_once '../utils/buffer_session_init.php';
 require_once '../helpers/RedirectHelper.php';
-require_once '../constants/ItemTypes.php';
+require_once '../constants/ListTypes.php';
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
     throw new Exception("the request method should be POST.");
@@ -17,10 +17,10 @@ $item_id = $_POST['item_id'];
 $recover_to = $_POST['recover_to'];
 $item = $deletedItems[$item_id];
 
-if ($recover_to == ItemTypes::TODO) {
+if ($recover_to == ListTypes::TODO) {
     $_SESSION['items']['todo'][$item_id] = $item;
 
-} elseif ($recover_to == ItemTypes::COMPLETED) {
+} elseif ($recover_to == ListTypes::COMPLETED) {
     $_SESSION['items']['completed'][$item_id] = $item;
 
 } else {
