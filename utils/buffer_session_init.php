@@ -1,28 +1,26 @@
 <?php
 require_once __DIR__ . '/../helpers/DatabaseHelper.php';
 
-ob_start();
+if(! session_id()) {
+    session_start();
+}
 
-$commonFields = [
-    'id',
-    'title',
-    'description',
-];
+ob_start();
 
 $todoItems =
     DatabaseHelper::fetchItems(
         "SELECT * FROM todo_items",
-        [...$commonFields, 'created_at']
+        [...DatabaseHelper::$common_fields, 'created_at']
     );
 
 $completedItems =
     DatabaseHelper::fetchItems(
         "SELECT * FROM completed_items",
-        [...$commonFields, 'completed_at']
+        [...DatabaseHelper::$common_fields, 'completed_at']
     );
 
 $deletedItems =
     DatabaseHelper::fetchItems(
         "SELECT * FROM deleted_items",
-        [...$commonFields, 'deleted_at']
+        [...DatabaseHelper::$common_fields, 'deleted_at']
     );
