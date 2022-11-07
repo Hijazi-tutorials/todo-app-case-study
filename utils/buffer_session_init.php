@@ -22,5 +22,5 @@ $completedItems =
 $deletedItems =
     DatabaseHelper::fetchItems(
         "SELECT * FROM deleted_items",
-        [...DatabaseHelper::$common_fields, 'deleted_at']
+        [...DatabaseHelper::$common_fields, 'deleted_from', 'deleted_at']
     );
