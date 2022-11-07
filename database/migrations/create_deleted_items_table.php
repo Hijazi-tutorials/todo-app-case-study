@@ -11,11 +11,12 @@ if (! isset($mysqli)) {
 
 $create_table_query =
     sprintf(
-        "CREATE TABLE `%s` (%s, %s, %s, %s, %s)",
+        "CREATE TABLE `%s` (%s, %s, %s, %s, %s, %s)",
         "deleted_items",
         "`id` INT NOT NULL AUTO_INCREMENT",
         "`title` VARCHAR(255) NOT NULL",
         "`description` VARCHAR(255)",
+        "`deleted_from` ENUM('todo-list', 'completed-list')",
         "`deleted_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
         "PRIMARY KEY (`id`)"
     );
