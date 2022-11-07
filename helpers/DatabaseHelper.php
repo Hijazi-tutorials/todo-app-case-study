@@ -33,6 +33,29 @@ class DatabaseHelper
 
         return self::$mysqli;
     }
+
+    public static function fetchItems($query, $fields): array
+    {
+        if (! is_array($fields)) {
+            throw new Exception("`fields` param should be array.");
+        }
+
+        $items = [];
+        $mysqli = self::mysqliConnection();
+        $fetchedItems = $mysqli->query($query);
+
+        while ($fetchedItem = $fetchedItems->fetch_assoc()) {
+            $item = [];
+
+            foreach ($fields as $field) {
+                $item[$field] = $fetchedItem[$field];
+            }
+
+            $items[] = $item;
+        }
+
+        return $items;
+    }
 }
 
 DatabaseHelper::$db_host = $db_host;
