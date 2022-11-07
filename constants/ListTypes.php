@@ -1,6 +1,6 @@
 <?php
 
-class ItemTypes
+class ListTypes
 {
     public const TODO = "todo-list";
     public const COMPLETED = "completed-list";
