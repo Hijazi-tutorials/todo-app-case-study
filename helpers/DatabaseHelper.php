@@ -10,6 +10,12 @@ class DatabaseHelper
     public static $db_password;
     public static $db_name;
 
+    public static $common_fields = [
+        'id',
+        'title',
+        'description'
+    ];
+
     /*
      * @throws Exception if connection by mysqli failed.
      */
@@ -55,6 +61,11 @@ class DatabaseHelper
         }
 
         return $items;
+    }
+
+    public static function fetchItem($query, $field): array
+    {
+        return self::fetchItems($query, $field)[0] ?? [];
     }
 }
 
