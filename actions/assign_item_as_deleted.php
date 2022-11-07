@@ -1,8 +1,7 @@
 <?php
 require_once '../utils/buffer_session_init.php';
-require_once '../helpers/UniqueGeneratorHelper.php';
-require_once '../helpers/DateHelper.php';
 require_once '../helpers/RedirectHelper.php';
+require_once '../helpers/DatabaseHelper.php';
 require_once '../constants/ListTypes.php';
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -11,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] != 'POST') {
 if (! key_exists('item_id', $_POST)) {
     throw new Exception("Should passing the item id within the request.");
 }
-if(! key_exists('delete_from', $_POST)) {
+if (! key_exists('delete_from', $_POST)) {
     throw new Exception("Have to declare from which list is deleting.");
 }
 
@@ -19,28 +18,42 @@ $item_id = $_POST['item_id'];
 $delete_from = $_POST['delete_from'];
 
 if ($delete_from == ListTypes::TODO) {
-    $item = $todoItems[$item_id];
+    $item =
+        DatabaseHelper::fetchItem(
+            "SELECT * FROM `todo_items` WHERE `id` = $item_id",
+            [...DatabaseHelper::$common_fields, 'created_at']
+        );
 
-    unset($_SESSION['items']['todo'][$item_id]);
-    unset($todoItems[$item_id]);
+    if (! $item) {
+        throw new Exception("todo-item #$item_id isn't exist.");
+    }
+
+    DatabaseHelper::mysqliConnection()->query(
+        "DELETE FROM `todo_items` WHERE  `id` = $item_id"
+    );
 } elseif ($delete_from == ListTypes::COMPLETED) {
-    $item = $completedItems[$item_id];
+    $item =
+        DatabaseHelper::fetchItem(
+            "SELECT * FROM `completed_items` WHERE `id` = $item_id",
+            [... DatabaseHelper::$common_fields, 'completed_at']
+        );
 
-    unset($_SESSION['items']['completed'][$item_id]);
-    unset($completedItems[$item_id]);
+    if (! $item) {
+        throw new Exception("completed-item #$item_id isn't exist.");
+    }
+
+    DatabaseHelper::mysqliConnection()->query("DELETE FROM `completed_item` WHERE `id` = $item_id");
 } else {
     throw new Exception("Deleting from $delete_from isn't supported!");
 }
 
 
-$_SESSION['items']['deleted'][$item_id] = [
-    'id' => $item_id,
-    'title' => $item['title'],
-    'description' => $item['description'],
-    'created_at' => $item['created_at'],
-    'deleted_at' => DateHelper::humanDateFormat(),
-    'deleted_from' => $delete_from
-];
+DatabaseHelper::mysqliConnection()->query(
+    sprintf(
+        "INSERT INTO `deleted_items` (`%s`, `%s`, `%s`) VALUES ('%s', '%s', '%s')",
+        'title', 'description', 'deleted_from', $item['title'], $item['description'], $delete_from
+    )
+);
 
 $_SESSION['redirect_message'] =
     sprintf(
