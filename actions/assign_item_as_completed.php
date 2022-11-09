@@ -13,24 +13,24 @@ if (!key_exists('item_id', $_POST)) {
 $item_id = $_POST['item_id'];
 
 $item =
-    DatabaseHelper::fetchItem(
-        "SELECT * FROM todo_items WHERE id = $item_id",
-        [...DatabaseHelper::$common_fields, 'created_at']
+    DatabaseHelper::fetchResource(
+        "todo_items",
+        $item_id,
+        [...DatabaseHelper::$common_fields, 'created_at'],
+        true
     );
 
-if (! $item) {
-    throw new Exception("item #$item_id not exist.");
-}
-
 // delete todo item from `todo_items` table
-DatabaseHelper::mysqliConnection()->query("DELETE FROM `todo_items` WHERE id = $item_id");
+DatabaseHelper::deleteResource(
+    "todo_items",
+    $item_id
+);
 
 // add the fetched fields to `completed_items` table
-DatabaseHelper::mysqliConnection()->query(
-    sprintf(
-        "INSERT INTO `completed_items` (`%s`, `%s`) VALUES ('%s', '%s')",
-        "title", "description", $item['title'], $item['description']
-    )
+DatabaseHelper::createResource(
+    "completed_items",
+    ["title", "description"],
+    [$item['title'], $item['description']]
 );
 
 $_SESSION['redirect_message'] =

@@ -18,41 +18,31 @@ $item_id = $_POST['item_id'];
 $delete_from = $_POST['delete_from'];
 
 if ($delete_from == ListTypes::TODO) {
-    $item =
-        DatabaseHelper::fetchItem(
-            "SELECT * FROM `todo_items` WHERE `id` = $item_id",
-            [...DatabaseHelper::$common_fields, 'created_at']
-        );
-
-    if (! $item) {
-        throw new Exception("todo-item #$item_id isn't exist.");
-    }
-
-    DatabaseHelper::mysqliConnection()->query(
-        "DELETE FROM `todo_items` WHERE  `id` = $item_id"
-    );
-} elseif ($delete_from == ListTypes::COMPLETED) {
-    $item =
-        DatabaseHelper::fetchItem(
-            "SELECT * FROM `completed_items` WHERE `id` = $item_id",
-            [... DatabaseHelper::$common_fields, 'completed_at']
-        );
-
-    if (! $item) {
-        throw new Exception("completed-item #$item_id isn't exist.");
-    }
-
-    DatabaseHelper::mysqliConnection()->query("DELETE FROM `completed_item` WHERE `id` = $item_id");
+    $delete_from_table = $fetch_from_table = "todo_items";
+}
+elseif ($delete_from == ListTypes::COMPLETED) {
+    $delete_from_table = $fetch_from_table = "completed_items";
 } else {
     throw new Exception("Deleting from $delete_from isn't supported!");
 }
 
+$item =
+    DatabaseHelper::fetchResource(
+        $fetch_from_table,
+        $item_id,
+        ["title", "description"],
+        true
+    );
 
-DatabaseHelper::mysqliConnection()->query(
-    sprintf(
-        "INSERT INTO `deleted_items` (`%s`, `%s`, `%s`) VALUES ('%s', '%s', '%s')",
-        'title', 'description', 'deleted_from', $item['title'], $item['description'], $delete_from
-    )
+DatabaseHelper::deleteResource(
+    $delete_from_table,
+    $item_id
+);
+
+DatabaseHelper::createResource(
+    "deleted_items",
+    ['title', 'description', 'deleted_from'],
+    [$item['title'], $item['description'], $delete_from]
 );
 
 $_SESSION['redirect_message'] =
