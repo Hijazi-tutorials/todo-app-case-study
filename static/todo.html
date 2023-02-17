@@ -1,14 +1,16 @@
 <div class="bg-gray-100 space-y-12 py-10 rounded-2xl">
     <div>
         <h3 class="text-3xl text-center font-source-code-pro"> Todo items </h3>
+        <!-- ::if statement start here to show this message once;; -->
         <div class="bg-purple-500 my-8 py-4 font-source-code-pro text-lg text-white text-center">
             <!-- {$redirect_message} -->
         </div>
+        <!-- ::if statement end here to show this message once;; -->
     </div>
     <!-- to-do item element -->
     <div class="container flex justify-center gap-16">
         <div class="w-80 border-r border-r-2 pr-4 border-purple-500">
-            <form action="" method="">
+            <form action="::path of php file to call with POST method to create new items with 'title', and 'description' data;;" method="post">
                 <div class="mb-6">
                     <label for="title"
                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Title</label>
@@ -30,16 +32,17 @@
         </div>
         <div>
             <div class="w-80 mb-6">
-                <div class="bg-white max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
+                <!-- ::loop of items.todo should start here;; -->
+                <div class="bg-white my-4 max-w-sm mx-auto rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-500 transform hover:scale-105 cursor-pointer">
                     <div class="h-20 bg-purple-500 flex items-center justify-start gap-3">
                         <h1 class="text-white ml-4 border-2 py-2 px-4 rounded-full">
-                            <!-- {$i} -->
+                            <!-- {$index} -->
                         </h1>
                         <p class="mr-20 text-white text-lg">
                             <!-- {$title} -->
                         </p>
                     </div>
-                    <form action="" method="" id="todo-item-{$id}"
+                    <form action="::path of php file to call with POST method to assign the items.todo to items.completed;;" method="post" id="todo-item-{$id}"
                           class="my-0 flex items-center px-4 gap-3">
                                 <span class=''>
                                   <input hidden name="item_id" value="{$id}">
@@ -51,8 +54,9 @@
                             <!-- {$description} -->
                         </p>
                     </form>
-                    <form action="" method="">
+                    <form action="::path of php file to call with POST method to delete item;;" method="post">
                         <input hidden name="item_id" value="{$id}">
+                        <input hidden name="delete_from" value="{$todo_items_constant}" />
                         <button type="submit"
                                 class="text-sm bg-red-500 text-white px-3 py-2 mx-4 rounded hover:bg-white hover:text-red-500 duration-500">
                             Delete
@@ -65,6 +69,7 @@
                         </p>
                     </div>
                 </div>
+                <!-- ::loop of items.todo should end here;; -->
             </div>
         </div>
     </div>
