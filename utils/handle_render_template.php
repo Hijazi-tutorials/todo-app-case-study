@@ -6,10 +6,11 @@
  * content (including PHP & HTML & ..) should be after extend/import this script `utils/buffer_session_init.php`
  */
 
-$includedFilesStr = join("", get_included_files());
-// throw exception if `buffer_session_init.php` isn't imported/extended
-if (! strpos($includedFilesStr, 'buffer_session_init.php')) {
-    throw new Exception('You cant import this script without first import `buffer_session_init.php`');
+$includedFiles = get_included_files();
+$requiredFile = __DIR__ . "/buffer_session_init.php";
+
+if (! in_array($requiredFile, $includedFiles)) {
+    throw new Exception('[BAD USAGE] to use `handle_render_template` util correctly, you have to include (import) `buffer_session_init.php` at the top of your file.');
 }
 
 $content = ob_get_contents();
